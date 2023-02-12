@@ -9,8 +9,14 @@ const SearchBar = () => {
   return (
     <View style={{ padding: 20 }}>
       <View style={{ marginBottom: 20 }}>
-        <Text style={{ fontSize: 32, fontWeight: "bold" }}>Hi James</Text>
-        <Text style={{ fontSize: 12, fontWeight: "normal" }}>
+        <Text
+          style={{ fontSize: 32, fontWeight: "bold", fontFamily: "Poppins" }}
+        >
+          Hi James
+        </Text>
+        <Text
+          style={{ fontSize: 12, fontWeight: "normal", fontFamily: "Poppins" }}
+        >
           What do you want to order today?
         </Text>
       </View>
@@ -27,7 +33,12 @@ const SearchBar = () => {
         <SearchIcon style={{ width: "10%" }} />
         <TextInput
           placeholder="Search"
-          style={{ marginLeft: 10, fontSize: 12, width: "90%" }}
+          style={{
+            marginLeft: 10,
+            fontSize: 12,
+            width: "90%",
+            fontFamily: "Poppins",
+          }}
           onChangeText={(text) => setSearch(text)}
         />
       </View>

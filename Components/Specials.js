@@ -11,7 +11,11 @@ const Specials = () => {
     <View style={{}}>
       {/*Title */}
       <View style={{ marginHorizontal: 20 }}>
-        <Text style={{ fontSize: 20, fontWeight: "bold" }}>Specials</Text>
+        <Text
+          style={{ fontSize: 20, fontWeight: "bold", fontFamily: "Poppins" }}
+        >
+          Specials
+        </Text>
       </View>
       <FlatList
         data={specials}
@@ -39,10 +43,18 @@ const Specials = () => {
                 marginTop: -20,
               }}
             />
-            <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+            <Text
+              style={{
+                fontSize: 20,
+                fontWeight: "bold",
+                fontFamily: "Poppins",
+              }}
+            >
               {item.name}
             </Text>
-            <Text style={{ fontSize: 16 }}>{item.price}</Text>
+            <Text style={{ fontSize: 16, fontFamily: "Poppins" }}>
+              {item.price}
+            </Text>
             <View
               style={{
                 flexDirection: "row",
@@ -50,7 +62,9 @@ const Specials = () => {
                 justifyContent: "space-between",
               }}
             >
-              <Text style={{ fontSize: 13 }}>See details</Text>
+              <Text style={{ fontSize: 13, fontFamily: "Poppins" }}>
+                See details
+              </Text>
               <ArrowRight />
             </View>
           </TouchableOpacity>

@@ -33,7 +33,12 @@ const Categories = () => {
             {category.icon}
           </View>
           <Text
-            style={{ fontSize: 14, fontWeight: "normal", textAlign: "center" }}
+            style={{
+              fontSize: 14,
+              fontWeight: "normal",
+              textAlign: "center",
+              fontFamily: "Poppins",
+            }}
           >
             {category.name}
           </Text>
