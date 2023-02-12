@@ -2,15 +2,17 @@ import { View, Text, TouchableOpacity, FlatList, Image } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
+import { useDispatch, useSelector } from "react-redux";
 
 import { colors } from "../assets/colors/colors";
 import BasketIcon from "../assets/icons/Basket";
 import RemoveIcon from "../assets/icons/Remove";
 import AddIcon from "../assets/icons/Add";
-
-import specials from "../assets/data/specials";
+import { addToCart, removeFromCart } from "../Redux/Slices/cartSlice";
 
 const Cart = ({ navigation }) => {
+  const dispatch = useDispatch();
+  const { cart } = useSelector((state) => state.cart);
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {/*header*/}
@@ -31,72 +33,88 @@ const Cart = ({ navigation }) => {
       <View style={{ padding: 20 }}>
         <Text style={{ fontSize: 24, fontWeight: "bold" }}>My Order</Text>
       </View>
-      <FlatList
-        data={specials}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            onPress={() => navigation.navigate("Details", { id: item.id })}
-            style={{
-              padding: 10,
-              flexDirection: "row",
-            }}
-          >
-            <View
+      {cart.length > 0 ? (
+        <FlatList
+          data={cart}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Details", { id: item.id })}
               style={{
-                backgroundColor: colors.primary,
-                borderRadius: 20,
-                width: 100,
-                height: 80,
-                alignItems: "center",
-                justifyContent: "center",
-                marginRight: 10,
+                padding: 10,
+                flexDirection: "row",
               }}
             >
-              <Image
-                source={item.icon}
+              <View
                 style={{
-                  width: 60,
-                  height: 60,
+                  backgroundColor: colors.primary,
+                  borderRadius: 20,
+                  width: 100,
+                  height: 80,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginRight: 10,
                 }}
-              />
-            </View>
-            <View style={{}}>
-              <Text style={{ fontSize: 20, fontFamily: "Poppins" }}>
-                {item.name}
-              </Text>
-              <View style={{ flexDirection: "row" }}>
-                <TouchableOpacity>
-                  <RemoveIcon />
-                </TouchableOpacity>
-                <Text
+              >
+                <Image
+                  source={item.icon}
                   style={{
-                    fontSize: 20,
-                    fontFamily: "Poppins",
-                    paddingHorizontal: 10,
+                    width: 60,
+                    height: 60,
                   }}
-                >
-                  1
-                </Text>
-                <TouchableOpacity>
-                  <AddIcon />
-                </TouchableOpacity>
+                />
               </View>
-            </View>
-            <View
-              style={{
-                marginLeft: "auto",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Text style={{ fontSize: 20, fontFamily: "Poppins" }}>
-                {item.price}
-              </Text>
-            </View>
-          </TouchableOpacity>
-        )}
-        keyExtractor={(item) => item.id}
-      />
+              <View style={{}}>
+                <Text style={{ fontSize: 20, fontFamily: "Poppins" }}>
+                  {item.name}
+                </Text>
+                <View style={{ flexDirection: "row" }}>
+                  <TouchableOpacity
+                    onPress={() => dispatch(removeFromCart(item))}
+                  >
+                    <RemoveIcon />
+                  </TouchableOpacity>
+                  <Text
+                    style={{
+                      fontSize: 20,
+                      fontFamily: "Poppins",
+                      paddingHorizontal: 10,
+                    }}
+                  >
+                    {item.quantity}
+                  </Text>
+                  <TouchableOpacity onPress={() => dispatch(addToCart(item))}>
+                    <AddIcon />
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <View
+                style={{
+                  marginLeft: "auto",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Text style={{ fontSize: 20, fontFamily: "Poppins" }}>
+                  {item.price}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          )}
+          keyExtractor={(item) => item.id}
+        />
+      ) : (
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Text style={{ fontSize: 20, fontFamily: "Poppins" }}>
+            You don't have any items in your cart yet.
+          </Text>
+        </View>
+      )}
       {/*checkout*/}
       <TouchableOpacity
         style={{
@@ -105,6 +123,7 @@ const Cart = ({ navigation }) => {
           padding: 10,
           borderRadius: 30,
         }}
+        onPress={() => cart.length === 0 && navigation.replace("Home")}
       >
         <Text
           style={{
@@ -115,7 +134,7 @@ const Cart = ({ navigation }) => {
             fontSize: 20,
           }}
         >
-          Checkout
+          {cart.length > 0 ? "Checkout" : "Back to the main menu"}
         </Text>
       </TouchableOpacity>
     </SafeAreaView>

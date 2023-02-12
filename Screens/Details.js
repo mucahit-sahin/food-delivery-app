@@ -6,9 +6,13 @@ import { Ionicons } from "@expo/vector-icons";
 import { colors } from "../assets/colors/colors";
 import Basket from "../assets/icons/Basket";
 import specials from "../assets/data/specials";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../Redux/Slices/cartSlice";
 
 const Details = ({ route, navigation }) => {
   const { id } = route.params;
+  const dispatch = useDispatch();
+
   const [data] = useState(specials.find((item) => item.id === id));
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.secondary }}>
@@ -110,7 +114,10 @@ const Details = ({ route, navigation }) => {
               paddingVertical: 10,
               paddingHorizontal: 20,
             }}
-            onPress={() => navigation.navigate("Cart")}
+            onPress={() => {
+              dispatch(addToCart(data));
+              navigation.navigate("Cart");
+            }}
           >
             <Text
               style={{
