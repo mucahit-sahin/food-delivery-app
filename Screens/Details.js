@@ -23,7 +23,7 @@ const Details = ({ route, navigation }) => {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="ios-arrow-back" size={24} color={colors.primary} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("Basket")}>
+        <TouchableOpacity onPress={() => navigation.navigate("Cart")}>
           <Basket basket={5} />
         </TouchableOpacity>
       </View>
@@ -110,7 +110,7 @@ const Details = ({ route, navigation }) => {
               paddingVertical: 10,
               paddingHorizontal: 20,
             }}
-            onPress={() => navigation.navigate("Basket")}
+            onPress={() => navigation.navigate("Cart")}
           >
             <Text
               style={{

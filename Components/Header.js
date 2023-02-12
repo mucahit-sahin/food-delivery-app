@@ -16,7 +16,7 @@ const Header = () => {
       }}
     >
       <Menu />
-      <Basket basket={5} onPress={() => navigation.navigate("Basket")} />
+      <Basket basket={5} onPress={() => navigation.navigate("Cart")} />
     </View>
   );
 };
