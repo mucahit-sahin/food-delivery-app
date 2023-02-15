@@ -12,13 +12,13 @@ const categories = [
   },
   {
     id: 2,
-    name: "Italian",
+    name: "Pizza",
     icon: <Italian />,
   },
 
   {
     id: 3,
-    name: "Thai",
+    name: "Chicken",
     icon: (
       <MaterialCommunityIcons
         name="food-drumstick-outline"
@@ -29,8 +29,13 @@ const categories = [
   },
   {
     id: 4,
-    name: "Asian",
+    name: "Pasta",
     icon: <Asian />,
+  },
+  {
+    id: 5,
+    name: "Burger",
+    icon: <MaterialCommunityIcons name="hamburger" size={24} color="white" />,
   },
 ];
 

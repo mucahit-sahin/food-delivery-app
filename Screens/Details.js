@@ -51,6 +51,7 @@ const Details = ({ route, navigation }) => {
               marginTop: -125,
               width: 250,
               height: 250,
+              borderRadius: 125,
             }}
           />
         </View>
@@ -101,7 +102,7 @@ const Details = ({ route, navigation }) => {
                 fontFamily: "Poppins",
               }}
             >
-              {data.price}
+              {"$" + data.price}
             </Text>
           </View>
           <TouchableOpacity

@@ -1,12 +1,26 @@
 import { View, Text, FlatList, Image, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+
 import specials from "../assets/data/specials";
 import { colors } from "../assets/colors/colors";
 import ArrowRight from "../assets/icons/ArrowRight";
-import { useNavigation } from "@react-navigation/native";
 
 const Specials = () => {
   const navigation = useNavigation();
+  const { selectedCategory } = useSelector((state) => state.home);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    // get includes selected category
+    setData([]);
+    specials.forEach((item) => {
+      item.categories.includes(selectedCategory) &&
+        setData((prev) => [...prev, item]);
+    });
+  }, [selectedCategory]);
+
   return (
     <View style={{}}>
       {/*Title */}
@@ -18,7 +32,7 @@ const Specials = () => {
         </Text>
       </View>
       <FlatList
-        data={specials}
+        data={data}
         renderItem={({ item }) => (
           <TouchableOpacity
             style={{
@@ -30,6 +44,7 @@ const Specials = () => {
               marginTop: 20,
               marginLeft: 20,
               width: 150,
+              height: 250,
               justifyContent: "space-between",
             }}
             onPress={() => navigation.navigate("Details", { id: item.id })}
@@ -41,6 +56,7 @@ const Specials = () => {
                 height: 100,
                 marginLeft: -30,
                 marginTop: -20,
+                borderRadius: 50,
               }}
             />
             <Text
@@ -50,10 +66,12 @@ const Specials = () => {
                 fontFamily: "Poppins",
               }}
             >
-              {item.name}
+              {item.name.length > 20
+                ? item.name.slice(0, 20) + "..."
+                : item.name}
             </Text>
             <Text style={{ fontSize: 16, fontFamily: "Poppins" }}>
-              {item.price}
+              {"$" + item.price}
             </Text>
             <View
               style={{

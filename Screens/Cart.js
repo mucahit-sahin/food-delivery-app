@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, FlatList, Image } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,6 +13,17 @@ import { addToCart, removeFromCart } from "../Redux/Slices/cartSlice";
 const Cart = ({ navigation }) => {
   const dispatch = useDispatch();
   const { cart } = useSelector((state) => state.cart);
+
+  const [totalPrice, setTotalPrice] = useState(
+    cart.reduce((acc, item) => acc + item.price * item.quantity, 0)
+  );
+
+  useEffect(() => {
+    setTotalPrice(
+      cart.reduce((acc, item) => acc + item.price * item.quantity, 0)
+    );
+  }, [cart]);
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {/*header*/}
@@ -95,7 +106,7 @@ const Cart = ({ navigation }) => {
                 }}
               >
                 <Text style={{ fontSize: 20, fontFamily: "Poppins" }}>
-                  {item.price}
+                  {"$" + item.price}
                 </Text>
               </View>
             </TouchableOpacity>
@@ -112,6 +123,22 @@ const Cart = ({ navigation }) => {
         >
           <Text style={{ fontSize: 20, fontFamily: "Poppins" }}>
             You don't have any items in your cart yet.
+          </Text>
+        </View>
+      )}
+
+      {/*Total price*/}
+      {cart.length > 0 && (
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            padding: 10,
+          }}
+        >
+          <Text style={{ fontSize: 20, fontFamily: "Poppins" }}>Total:</Text>
+          <Text style={{ fontSize: 16, fontFamily: "Poppins" }}>
+            {"$" + totalPrice}
           </Text>
         </View>
       )}

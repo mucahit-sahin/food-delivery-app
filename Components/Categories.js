@@ -1,36 +1,41 @@
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity, FlatList } from "react-native";
 import React, { useState } from "react";
 
 import categories from "../assets/data/categories";
 import { colors } from "../assets/colors/colors";
+import { useDispatch, useSelector } from "react-redux";
+import { setSelectedCategory } from "../Redux/Slices/homeSlice";
 
 const Categories = () => {
-  const [selectedCategory, setSelectedCategory] = useState(0);
+  const { selectedCategory } = useSelector((state) => state.home);
+  const dispatch = useDispatch();
+
   return (
-    <View
+    <FlatList
       style={{
         flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
       }}
-    >
-      {categories.map((category, index) => (
+      data={categories}
+      renderItem={({ item }) => (
         <TouchableOpacity
-          key={category.id}
+          key={item.id}
           style={{
             margin: 10,
+            alignItems: "center",
           }}
-          onPress={() => setSelectedCategory(index)}
+          onPress={() => dispatch(setSelectedCategory(item.id))}
         >
           <View
             style={{
               backgroundColor:
-                index == selectedCategory ? colors.tertiary : colors.primary,
+                item.id == selectedCategory ? colors.tertiary : colors.primary,
               padding: 10,
               borderRadius: 15,
+              width: 50,
+              alignItems: "center",
             }}
           >
-            {category.icon}
+            {item.icon}
           </View>
           <Text
             style={{
@@ -40,11 +45,14 @@ const Categories = () => {
               fontFamily: "Poppins",
             }}
           >
-            {category.name}
+            {item.name}
           </Text>
         </TouchableOpacity>
-      ))}
-    </View>
+      )}
+      keyExtractor={(item, index) => index}
+      horizontal
+      scrollEnabled
+    />
   );
 };
 
