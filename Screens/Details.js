@@ -6,12 +6,15 @@ import { Ionicons } from "@expo/vector-icons";
 import { colors } from "../assets/colors/colors";
 import Basket from "../assets/icons/Basket";
 import specials from "../assets/data/specials";
-import { useDispatch } from "react-redux";
-import { addToCart } from "../Redux/Slices/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, removeFromCart } from "../Redux/Slices/cartSlice";
+import RemoveIcon from "../assets/icons/Remove";
+import AddIcon from "../assets/icons/Add";
 
 const Details = ({ route, navigation }) => {
   const { id } = route.params;
   const dispatch = useDispatch();
+  const { cart } = useSelector((state) => state.cart);
 
   const [data] = useState(specials.find((item) => item.id === id));
   return (
@@ -28,7 +31,7 @@ const Details = ({ route, navigation }) => {
           <Ionicons name="ios-arrow-back" size={24} color={colors.primary} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate("Cart")}>
-          <Basket basket={5} />
+          <Basket />
         </TouchableOpacity>
       </View>
       <View
@@ -105,33 +108,62 @@ const Details = ({ route, navigation }) => {
               {"$" + data.price}
             </Text>
           </View>
-          <TouchableOpacity
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: colors.secondary,
-              borderRadius: 30,
-              paddingVertical: 10,
-              paddingHorizontal: 20,
-            }}
-            onPress={() => {
-              dispatch(addToCart(data));
-              navigation.navigate("Cart");
-            }}
-          >
-            <Text
+          {cart.find((item) => item.id === id) ? (
+            <View
               style={{
-                fontSize: 13,
-                color: "white",
-                marginRight: 20,
-                fontFamily: "Poppins",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+                paddingVertical: 10,
+                paddingHorizontal: 10,
+                backgroundColor: colors.secondary,
+                borderRadius: 30,
               }}
             >
-              Add to cart
-            </Text>
-            <Ionicons name="add-circle-outline" size={24} color="white" />
-          </TouchableOpacity>
+              <TouchableOpacity onPress={() => dispatch(removeFromCart(data))}>
+                <RemoveIcon />
+              </TouchableOpacity>
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontFamily: "Poppins",
+                  paddingHorizontal: 20,
+                }}
+              >
+                {cart.find((item) => item.id === id).quantity}
+              </Text>
+              <TouchableOpacity onPress={() => dispatch(addToCart(data))}>
+                <AddIcon />
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <TouchableOpacity
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: colors.secondary,
+                borderRadius: 30,
+                paddingVertical: 10,
+                paddingHorizontal: 20,
+              }}
+              onPress={() => {
+                dispatch(addToCart(data));
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 13,
+                  color: "white",
+                  marginRight: 20,
+                  fontFamily: "Poppins",
+                }}
+              >
+                Add to cart
+              </Text>
+              <Ionicons name="add-circle-outline" size={24} color="white" />
+            </TouchableOpacity>
+          )}
         </View>
       </View>
     </SafeAreaView>

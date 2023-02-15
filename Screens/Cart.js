@@ -38,7 +38,7 @@ const Cart = ({ navigation }) => {
           <Ionicons name="ios-arrow-back" size={24} color={"black"} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate("Cart")}>
-          <BasketIcon basket={5} />
+          <BasketIcon />
         </TouchableOpacity>
       </View>
       <View style={{ padding: 20 }}>
