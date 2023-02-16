@@ -71,43 +71,52 @@ const Cart = ({ navigation }) => {
                   style={{
                     width: 60,
                     height: 60,
+                    borderRadius: 30,
                   }}
                 />
               </View>
-              <View style={{}}>
-                <Text style={{ fontSize: 20, fontFamily: "Poppins" }}>
-                  {item.name}
-                </Text>
+              <View style={{ flexDirection: "column", flex: 1 }}>
                 <View style={{ flexDirection: "row" }}>
-                  <TouchableOpacity
-                    onPress={() => dispatch(removeFromCart(item))}
-                  >
-                    <RemoveIcon />
-                  </TouchableOpacity>
-                  <Text
+                  <Text style={{ fontSize: 20, fontFamily: "Poppins" }}>
+                    {item.name.length > 15
+                      ? item.name.slice(0, 15) + "..."
+                      : item.name}
+                  </Text>
+                </View>
+                <View
+                  style={{ flexDirection: "row", justifyContent: "center" }}
+                >
+                  <View style={{ flexDirection: "row" }}>
+                    <TouchableOpacity
+                      onPress={() => dispatch(removeFromCart(item))}
+                    >
+                      <RemoveIcon />
+                    </TouchableOpacity>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        fontFamily: "Poppins",
+                        paddingHorizontal: 10,
+                      }}
+                    >
+                      {item.quantity}
+                    </Text>
+                    <TouchableOpacity onPress={() => dispatch(addToCart(item))}>
+                      <AddIcon />
+                    </TouchableOpacity>
+                  </View>
+                  <View
                     style={{
-                      fontSize: 20,
-                      fontFamily: "Poppins",
-                      paddingHorizontal: 10,
+                      marginLeft: "auto",
+                      alignItems: "center",
+                      justifyContent: "center",
                     }}
                   >
-                    {item.quantity}
-                  </Text>
-                  <TouchableOpacity onPress={() => dispatch(addToCart(item))}>
-                    <AddIcon />
-                  </TouchableOpacity>
+                    <Text style={{ fontSize: 20, fontFamily: "Poppins" }}>
+                      {"$" + item.price}
+                    </Text>
+                  </View>
                 </View>
-              </View>
-              <View
-                style={{
-                  marginLeft: "auto",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Text style={{ fontSize: 20, fontFamily: "Poppins" }}>
-                  {"$" + item.price}
-                </Text>
               </View>
             </TouchableOpacity>
           )}
